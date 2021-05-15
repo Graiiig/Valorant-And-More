@@ -24,6 +24,14 @@ class HomeController extends AbstractController
     {
         $this->session = $session;
     }
+
+    /**
+     * @Route("/", name="index")
+     */
+    public function index()
+    {
+        return $this->redirectToRoute('home', ['_locale'=>'en']);
+    }
     
     /**
      * @Route("/{_locale}/home/", name="home", requirements={"_locale"= "en|fr|es"})
