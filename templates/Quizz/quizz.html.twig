@@ -1,0 +1,106 @@
+{# templates/Quizz/quizz.html.twig #}
+<html>
+<head>
+  
+  <title>{{title}}</title>
+
+  {# the CSS file lives at "public/css/blog.css" #}
+<link href="{{ asset('css/styles_quizz.css') }}" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width">
+
+<link rel="icon" href="/images/favicon.ico" />
+<link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body class="move">
+    <div class="coloredlinea"></div>
+    <div class="coloredlineb"></div>
+    <div class="coloredlinec"></div>
+    <div class="coloredline1"></div>
+
+    <div class="sprinkesbox"><img class="sprinkles_quizz" src="{{ asset('images/sprinkles.png') }}" alt=""></div>
+
+     <h1 class="quizz_title" >{{quizz1}}</h1>
+
+    <div class="quiz-container">
+      <div id="question" class="question"></div>
+
+    </br>
+
+      <div class="choiceoption1"><label class="option">
+          <input type="radio" name="option" value="1" />
+          <span class="option1"></span><span class="checkmark"></span>
+      </label></div>
+
+    </br>
+
+    <div class="choiceoption1"><label class="option">
+          <input type="radio" name="option" value="2" />
+          <span class="option2"></span><span class="checkmark"></span>
+      </label></div>
+
+    </br> 
+
+    <div class="choiceoption1"><label class="option">
+          <input type="radio" class="inputquizz" name="option" value="3" />
+          <span class="option3"></span><span class="checkmark"></span>
+      </label></div>
+
+    </br>
+
+    <div class="choiceoption1"><label class="option">
+        <input type="radio" name="option" value="4" />
+        <span class="option4"></span><span class="checkmark"></span>
+    </label></div>
+      <!-- Buttons -->
+      <div class="controls">
+          <button class="previous">{% trans %}previous{% endtrans %}</button>
+          <button class="next">{% trans %} next {% endtrans %}</button>
+      </div>
+  </div>
+
+
+  <div class="result"></div>
+
+  
+
+  <img class="japanesetree_quizz" src="{{ asset('images/japanesetree.png') }}" alt="" > 
+
+  <div class="homequizz"><a class="ahomequizz" href={{"../home/"}}>{% trans %}home{% endtrans %}</a></div>
+
+    <p class="copyright_quizz">Software & Galipettes © - 2020</p>
+
+    <script>
+      
+  
+    function changeLanguage(lang){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      var actualurl = window.location.href;
+
+      if (lang != language){
+
+        var url = actualurl.replace(language, lang);
+
+        window.location.href = url;
+      }
+      
+    }
+      var url = window.location.href;
+      const regex = /\/..\//g;
+      var lang = url.match(regex);
+      var langue = lang[0].substring(1, lang[0].length-1);
+      document.getElementById(""+langue+"").classList.add("selected");
+
+ 
+    </script>
+
+    
+    <script type="text/javascript" src="{{ asset('js/quizz_' ~ app.request.locale ~ '.js') }}"></script>
+  
+</body>
+
+</html>
+

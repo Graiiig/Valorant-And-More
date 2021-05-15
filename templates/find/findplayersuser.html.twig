@@ -1,0 +1,88 @@
+{% extends 'basefind.html.twig' %}
+
+{% block container_seek_players %}
+{% set Agents = ['Sage','Omen','Viper','Sova','Phoenix','Brimstone','Cypher','Breach','Jett','Raze'] %}
+
+
+<div>
+  <h1>{{Allplayers[0].username}} is looking for a team</h1>
+
+  <h2>He play with {{Allplayers[0].agentplayed}}</h2>
+
+  <h2>{{Allplayers[0].description}}</h2>
+
+  <h2>He is {{Allplayers[0].level}}</h2>
+
+  {% if Allplayers[0].online == "1" %}
+  {% set status = "online" %}
+  {% else %}
+  {% set status = "offline" %}
+  {% endif %}
+
+  <h2>He is {{status}}</h2>
+
+</div>
+
+{{ dump(Allplayers[0]) }}
+{% endblock %}
+
+{% block script %}
+  <script>
+    
+    function FilterAgent(agent){
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).show();
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).each(function( ) {
+
+        if (!$( this ).hasClass(agent) && !$( this ).hasClass("selected")){
+          $( this ).toggle();
+          console.log("true")
+        }
+        else if ($( this ).hasClass(agent) && $( this ).hasClass("selected")){
+          $( this ).hide();
+          $( this ).removeClass("selected");
+          $("#"+agent).removeClass("agent_selected");
+        }
+        else {
+          $( this ).addClass("selected");
+          $("#"+agent).addClass("agent_selected");
+        }
+      });
+
+    }
+
+    function ShowAll(){
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).show();
+    }
+
+    function SortByDate(){
+      $('.container_blocks_display').append($('.container_blocks_display').find('.total').get().reverse());
+    }
+
+    $(".premium_checkbox").change(function() {
+      if(this.checked) {
+          $(".no").hide()
+      }
+      else {
+        $(".no").show()
+      }
+     
+  });
+  
+  $(".online_checkbox").change(function() {
+    if(this.checked) {
+        $(".0").hide()
+    }
+    else {
+      $(".0").show()
+    }
+  });
+
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+
+
+
+  </script>
+{% endblock %}
+

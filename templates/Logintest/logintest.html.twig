@@ -1,0 +1,170 @@
+{# templates/home/home.html.twig #}
+<html>
+<head>
+  
+  <title>Login - Valorant & More</title>
+
+  {# the CSS file lives at "public/css/blog.css" #}
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+<link href="{{ asset('css/styles_mobiles.css') }}" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="{{ asset('images/favicon.ico') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+{# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> #}
+<meta name="google-signin-client_id" content="688830409330-3jchshnijmo7dhjttej68l5ub5tgfhfp.apps.googleusercontent.com">
+
+
+</head>
+
+<body class="login_body">
+
+    <div class="login_left">
+
+      <div class="login_top">
+        
+
+      <img class="login_logo" src="{{ asset('images/logo.png') }}" alt="" >
+      <div class="languages_block languages_block_login">
+        {% for lang in languages %}
+
+        <p id="{{lang}}" onclick=changeLanguage(this.id) >{{lang}}</p>
+        
+        {% endfor %}
+	
+
+       
+        <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+      </div> 
+    </div>
+      <h1 class="login_h1">{% trans %}login_h1{% endtrans %} :</h1>
+  
+      <form class="login_form" action="">
+        <div class="login_from_inputs">
+          <label for="email">{% trans %}email{% endtrans %}</label>
+          <input type="text" name="email" id="email" required>
+        </div>
+        <div class="login_from_inputs">
+          <label for="Password">{% trans %}password{% endtrans %}</label>
+          <input type="text" name="password" id="password" required>
+        </div>
+        <input type="submit" value="Sign In">
+
+        
+      </form>
+      <div class="login_create_account">
+          <span>{% trans %}noaccount{% endtrans %} ?</span><span class="login_create_account_span">{% trans %}createaccount{% endtrans %} !</span></div>
+    
+
+
+      
+      <p class="login_copyright">Software & Galipettes © - 2020</p>
+    </div>
+
+    <script>
+
+    function home(){
+      window.location.href ='../home'
+    }
+  
+    function ImgSocialsonClick(social){
+
+       switch(social){
+
+        case 'google':
+          window.location.href ='fb';
+          break;
+        case 'steam':
+          window.location.href ='fb';
+          break;
+        case 'twitch':
+          window.location.href ='fb';
+          break;
+       }
+
+    }
+
+    function changeLanguage(lang){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      var actualurl = window.location.href;
+
+      if (lang != language){
+
+        var url = actualurl.replace(language, lang);
+
+        window.location.href = url;
+      }
+      
+    }
+      var url = window.location.href;
+      const regex = /\/..\//g;
+      var lang = url.match(regex);
+      var langue = lang[0].substring(1, lang[0].length-1);
+      document.getElementById(""+langue+"").classList.add("selected");
+
+    </script>
+  
+</body>
+
+<script>  
+  
+  
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '2852845641466515',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v6.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+
+    FB.getLoginStatus(function(response) {
+      console.log(response);
+  });
+      
+  };
+
+  
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+ 
+</script>
+
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
+  
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    console.log(googleUser);
+
+    window.location.href = '../home/';
+  }
+</script>
+
+
+
+</html>
+

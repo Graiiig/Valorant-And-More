@@ -1,0 +1,31 @@
+{% extends 'baselogin.html.twig' %}
+
+{% block content %}
+
+  <div class="mail_waiting_activation_body">
+    <h1>Valorant and More</h1>
+
+    {% if scenario == "wentwrong" %}
+
+      <h2>{%  trans %}wentwrong{% endtrans %}</h2>
+
+      <p>{%  trans %}contactadmin{% endtrans %} <a href="mailto:admin@valorantandmore.com">admin@valorantandmore.com</a></p>
+
+    {% elseif scenario == "activationyet" %}
+
+      <h2>{%  trans %}accountyetmember{% endtrans %}</h2>
+
+    {% else %}-
+      <h2>{%  trans %}plsconfemail{% endtrans %}</h2>
+
+      <p>{%  trans %}receiveemail{% endtrans %}</p>
+
+      <a href="login/">{%  trans %}signin{% endtrans %}</a>
+
+    {% endif %}
+
+
+
+  </div>
+  
+{% endblock %}

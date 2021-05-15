@@ -1,0 +1,283 @@
+{% extends 'basefind.html.twig' %}
+
+{% set Agents = ['Sage','Omen','Viper','Sova','Phoenix','Brimstone','Cypher','Breach','Jett','Raze'] %}
+
+{% block container_seek %}
+<div class="container_seek_filters">
+
+  <div class="filters_block">
+
+    <h1 class="h1_section_filters">{%  trans %} players {% endtrans %}</h1>
+  
+    <div class="plains_filters">
+
+      <div class="nbrentries">{%  trans %} announcesplayers {% endtrans %} : <span class="countannounces">{{ Allplayers | length }}</span></div>
+
+      <div class="filters_txt">{%  trans %} filters {% endtrans %}</div>
+
+      <div class="showall" onclick="ShowAll(), count()">{%  trans %} showall {% endtrans %}</div>
+
+      <div class="sortbydate" onclick="SortByDate()">{%  trans %} sortbydate {% endtrans %}</div>
+
+      <div class="sortbyname"><textarea maxlength="12" class="sortbyname_txtarea" placeholder="{%  trans %} searchbyusername {% endtrans %}"></textarea></div>
+
+      <div class="premium">
+      <label class="container_checkbox">{%  trans %} onlypremium {% endtrans %}           
+        <input type="checkbox" name="premium" class="premium_checkbox" id="">
+        <span class="checkmark"></span>
+      </label>
+      </div>
+
+      <div class="online">
+      <label class="container_checkbox">{%  trans %} onlyonline {% endtrans %}
+        <input type="checkbox" name="online" class="online_checkbox" id="">
+        <span class="checkmark"></span>
+      </label>
+      </div>
+
+    </div>    
+    
+    <div class="filter_agents">
+      {%  for Agent in Agents %}
+
+        <img class="agent" id="{{ Agent }}" data-status="agent_nonselected" onclick="FilterAgent(this.id) , count()" src="{{ asset('images/Avatars/Agents/PNG/' ~ Agent ~ '120x120.png') }}" alt="{{ Agent }}">
+
+      {% endfor %}
+    </div>
+
+    <div class="post_an_announce_from_announces">
+      <span>{%  trans %} notinthelist {% endtrans %} </span><a href="{{ path('profil_create_announce', {'_locale':app.request.locale})}}" class="post_an_announce_from_announces_txt">{%  trans %} clickhere {% endtrans %}</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+{% block container_seek_players %}
+<div id="particles-js"></div>
+<div class="container_seek">
+   
+    
+    <div class="container_blocks_display">
+    {% for Allplayer in Allplayers %}
+
+
+
+    <div class="total">
+      <div  class="container_blocks_display_announces {{ Allplayer.premium }} {{Allplayer.agent}} {{ Allplayer.online }}" data-premium="{{ Allplayer.premium }}" data-username="{{ Allplayer.username }}" data-description="{{ Allplayer.description }}" data-level="{{ Allplayer.level }}" data-online="{{ Allplayer.online }}" data-avatar="{{ Allplayer.avatar }}" data-agent="{{ Allplayer.agent }}"> 
+        
+               
+
+        {% if Allplayer.online == "1" %}
+          {% set statusdiv =  "div_online_announces_players" %}
+          {% set statusdiv2 =  "online_announces_players" %}
+
+        {% else %}
+          {% set statusdiv =  "div_offline_announces_players" %}
+          {% set statusdiv2 =  "offline_announces_players" %}
+        {% endif %}
+        <div class="{{ statusdiv }}"><div class="{{ statusdiv2 }}" src="https://placehold.it/40x40"></div></div>
+          
+          <div class="txt_announces_solo">
+
+            <div class="player_avatar_solo_announces">
+                <span class="player_txt half player_txt{{Allplayer.premium}}">{{Allplayer.username}}</span>
+                <span class="quarter"><img class="avatar_announces_player avatar_announces_player{{Allplayer.premium}}" src="{{ asset(Allplayer.avatar|slice(1,Allplayer.avatar|length)) }}"></span>
+                <span class="quarter">{{Allplayer.level}}</span>
+            </div>
+            
+            {# {{Allplayer.agent}} #} 
+
+            {# <div class="description_solo_announces">
+                {{Allplayer.description}}
+            </div> #}
+
+            <div class="date_solo_announce">
+                {# {{ Allplayer.date |date('d/m/Y H:i') }}  #}
+            </div>
+
+          </div>
+
+          <div class="img_findplayers"><img class="agentimg_findplayers" src="{{asset('images/Avatars/Agents/PNG/' ~ Allplayer.agent ~ '120x120.png')}}">
+
+            {# {% if Allplayer.premium == "yes" %}
+            <img class="premium_star" src="{{('/images/premium.png')}}" alt="">  
+            {% endif %} #}
+          
+        </div>
+        
+           
+      </div>
+
+      {# <div class="see_mail_andmore {{ Allplayer.premium }}  {{Allplayer.agent}} {{ Allplayer.online }}">
+        <!-- MODAL BOX A FAIRE -->
+        <img onclick="window.location.href='findplayers/{{ Allplayer.username }}/'" alt="Message" class="message_him" src="/images/eye.png">
+        <img alt="Profile" class="see_profile_him" src="/images/message.png">
+        <img onClick="window.open('findplayers/{{ Allplayer.username }}/','popup','width=400,height=700'); return false;" alt="Add" class="add_friend_him" src="/images/addmember.png">
+      </div>  #}
+
+    </div>
+
+    
+
+    {% endfor %}
+
+    </div>
+    <div class="footerplayers">
+      <p class="copyright">Software & Galipettes © - 2020</p>
+  </div>
+    
+</div>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+
+
+  $( ".sortbyname_txtarea" ).keyup(function() {
+
+    if("."+$(this).val().length > 0){
+      $('.container_blocks_display_announces[data-username*="'+$(this).val()+'" i]').show();
+      $('.container_blocks_display_announces:not([data-username*="'+$(this).val()+'" i])').hide()
+      count ();
+    }
+    else {
+         $('.container_blocks_display_announces').show();
+         count (); 
+    }
+  })
+
+function count () {
+    var CountAnnounces = $('div.container_blocks_display_announces:visible').length;
+    $('.countannounces').html(CountAnnounces);
+
+    $('.countannounces').each(function () {
+      $(this).prop('Counter',$('.countannounces').html(CountAnnounces)).animate({
+          Counter: $(this).text()
+      }, {
+          duration: 1000,
+          easing: 'swing',
+          step: function (now) {
+              $(this).text(Math.ceil(now));
+          }
+      });
+  }); 
+
+  }
+  count ()
+
+
+  $(document).on('click', '.crossdesc', function() {
+    $('.announce_desc').animate({'height':'0vh'},700);
+    setTimeout(function(){
+      $('.announce_desc').remove();
+    },630)
+    
+}) ;
+
+    $('.container_blocks_display_announces').click(function(){
+      
+      if (jQuery.type( $('.announce_desc').css('height')) == 'undefined') {
+        $(this).after('<div class="announce_desc"><div class="announce_desc_little"><p class="announce_desc_username">'+$(this).attr('data-username')+'</p><p class="announce_desc_description">'+$(this).attr('data-description')+'</p><p class="announce_desc_level">'+$(this).attr('data-level')+'</p></div><a class="announce_desc_addasfriend" href="profil/addfriend/'+$(this).attr('data-username')+'/"><img class="announce_desc_addasfriend_img"  src="../images/addmember.png"></a><a class="announce_desc_addasfriend" href="profil/msgfriend/'+$(this).attr('data-username')+'/"><img class="announce_desc_addasfriend_img"  src="../images/addmember.png"></a><a class="announce_desc_addasfriend" href="profil/addfriendtoteam/'+$(this).attr('data-username')+'/"><img class="announce_desc_addasfriend_img"  src="../images/addmember.png"></a><img class="crossdesc" src="../images/menu_logos/cross.png" alt=""></div>')
+        $('.announce_desc').animate({'height':'20vh'},400);
+
+      }
+
+      else {
+        $('.announce_desc').animate({'height':'0vh'},400);
+        setTimeout(function(){
+          $('.announce_desc').remove();
+        },330)
+
+      }
+
+    })
+   
+    function FilterAgent(agent){
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).show();
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).each(function( ) {
+
+        if (!$( this ).hasClass(agent) && !$( this ).hasClass("selected")){
+          $( this ).toggle();
+        }
+        else if ($( this ).hasClass(agent) && $( this ).hasClass("selected")){
+          $( this ).hide();
+          $( this ).removeClass("selected");
+          $("#"+agent).removeClass("agent_selected");
+        }
+        else {
+          $( this ).addClass("selected");
+          $("#"+agent).addClass("agent_selected");
+        }
+      });
+
+      if(!$('.agent').hasClass("agent_selected")){
+        $( ".container_blocks_display_announces, .see_mail_andmore" ).show();
+        $(".agent").removeClass("agent_selected");
+        $( ".premium_checkbox, .online_checkbox" ).prop( "checked", false );
+      }
+    }
+
+    function ShowAll(){
+      $( ".container_blocks_display_announces, .see_mail_andmore" ).show();
+      $(".agent").removeClass("agent_selected");
+      $( ".premium_checkbox, .online_checkbox" ).prop( "checked", false );
+    }
+
+    function SortByDate(){
+      $('.container_blocks_display').append($('.container_blocks_display').find('.total').get().reverse());
+    }
+
+    $(".premium_checkbox").change(function() {
+      if(this.checked) {
+          $(".no").hide()
+      }
+      else {
+        if($(".online_checkbox").is(':checked')){
+          $(".no").show()
+          $(".0").hide()
+        }
+        else {
+          $(".no").show()
+        }
+      }
+      count ()
+  });
+  
+  $(".online_checkbox").change(function() {
+    if(this.checked) {
+        $(".0").hide()
+    }
+    else {
+      if($(".premium_checkbox").is(':checked')){
+        $(".0").show()
+        $(".no").hide()
+      }
+      else{
+        $(".0").show()
+      } 
+    }
+    count ()
+  });
+
+  $(document).ready( function () {
+    var agents = ['Sage','Omen','Viper','Sova','Phoenix','Brimstone','Cypher','Breach','Jett','Raze'];
+
+    $.each( agents, function( key, agent ) {
+      if(!$('.container_blocks_display_announces').hasClass(agent)){
+        $('#'+agent).css('pointer-events','none');
+        $('#'+agent).css('opacity','0.2');
+        $('#'+agent).css('filter','grayscale(1)');
+      }
+    });
+
+
+} );
+
+  
+
+  </script>
+
+  <script src="{{asset('js/particlesconfig.js')}}"></script>
+{% endblock %}
+

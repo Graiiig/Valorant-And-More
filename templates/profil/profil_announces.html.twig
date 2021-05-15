@@ -1,0 +1,70 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+<div id="particles-js"></div>
+<div class="container_solo_announces_summary">
+
+    <p class="titlesection">{% trans %}announces{% endtrans %}</p>
+
+    {% if announces[0] is defined %}
+
+    {% for announce in announces %}
+
+    <div class="solo_announces_summary">
+         <div class="solo_announces_summary_units solo_announces_summary_title">{{ announce.title }}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_date">{{ announce.date |date('d/m/Y')}}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_username">{{ announce.username }}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_agentplayed">{{ announce.agentplayed }}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_description">{{ announce.description }}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_level">{{ announce.level }}</div>
+         <div class="solo_announces_summary_units solo_announces_summary_languages">
+             {% if announce.french == '1' %} <span>French </span> {% endif %}{% if announce.english == '1' %} <span>English </span> {% endif %}{% if announce.spanish == '1' %} <span>Spanish </span> {% endif %}
+        </div>
+         <div class="solo_announces_summary_units solo_announces_summary_delete"><button onclick="confirmation();" class="button_general_myannounces">Supprimer</button><p id="demo"></p></div>
+         <div class="space_announces_solo_top"></div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+
+    <span>You don't have any announce yet.</span>
+    <a class="post_an_announce_now_solo" href="../createannounces/">Post an announce now !</a>
+    
+{% endif %}
+{#{{ announces.0.username }}#}
+    
+</div>
+
+<script>
+
+    function confirmation(){
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "",
+            icon: 'warning',
+            background: '#111221',
+            border: '#ff4654 solid 2px',
+            showCancelButton: true,
+            confirmButtonColor: '#190530',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
+                window.location.href='../deleteannounce';
+            }
+        })
+
+    }
+
+    </script>
+
+    <script src="/js/particlesconfig.js"></script>
+{% endblock %}
+

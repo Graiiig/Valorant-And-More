@@ -1,0 +1,85 @@
+{# templates/security/login.html.twig #}
+<html>
+<head>
+  
+  {% block title %}{% endblock %}
+
+{# the CSS file lives at "public/css/blog.css" #}
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+<link href="{{ asset('css/styles_mobiles.css') }}" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="{{ asset('images/favicon.ico') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet"> 
+{# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> #}
+<script src="{{ asset('js/particles.js') }}"></script>
+
+</head>
+
+<body class="login_body">
+
+    <div class="login_left">
+
+      <div class="login_top">
+        
+
+      <img class="login_logo" onclick="home()" src="{{ asset('images/logo.png') }}" alt="" >
+      <div class="languages_block languages_block_login">
+        {% for lang in languages %}
+
+        <span class="lang" id="{{lang}}" onclick=changeLanguage(this.id) >{{lang}}</span>
+        
+        {% endfor %}
+	
+
+        <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+      </div> 
+    </div>
+    
+
+    {% block content %}
+    {% endblock %}
+
+      <p class="login_copyright">Software & Galipettes © - 2020</p>
+    </div>
+<div id="particles-js"></div>
+
+    {% block script %}
+    {% endblock %}
+    <script>
+
+
+    function home(){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      window.location.href ='../'+language+'/home'
+
+    }
+  
+
+    function changeLanguage(lang){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      var actualurl = window.location.href;
+
+      if (lang != language){
+
+        var url = actualurl.replace(language, lang);
+
+        window.location.href = url;
+      }
+      
+    }
+      var url = window.location.href;
+      const regex = /\/..\//g;
+      var lang = url.match(regex);
+      var langue = lang[0].substring(1, lang[0].length-1);
+      document.getElementById(""+langue+"").classList.add("selected");
+
+    </script>
+  
+</body>
+
+</html>
+

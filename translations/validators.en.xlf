@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="email.already.used">
+                <source>email.already.used</source>
+                <target> : This email is already used.</target>
+            </trans-unit>
+            <trans-unit id="email.not.valid">
+                <source>email.not.valid</source>
+                <target> : This email is not valid.</target>
+            </trans-unit>
+            <trans-unit id="username.already.used">
+                <source>username.already.used</source>
+                <target> : This username is not available.</target>
+            </trans-unit>
+            <trans-unit id="username.not.valid">
+                <source>username.not.valid</source>
+                <target> with your username. It cannot contain specials chars. 5 length min. 12 lenght max.</target>
+            </trans-unit>
+            <trans-unit id="password.not.valid">
+                <source>password.not.valid</source>
+                <target> with your password. It need 8 characters, a number, a letter. </target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

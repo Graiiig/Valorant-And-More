@@ -1,0 +1,120 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+
+<div id="particles-js"></div>
+
+{#    <p>LE PROFIL JOUEUR</p>#}
+
+    <div class="container_currentagentimg">
+
+        {% if app.user.agent == "none_configured" %}
+        <img class="currentagentimg" src="{{asset('images/Jett/Jett.png')}}"> 
+        {% else %}
+        <img class="currentagentimg" src="{{asset('images/' ~ app.user.agent ~ '/' ~ app.user.agent ~ '.png')}}">
+        {% endif %}
+
+    </div>
+
+    <div class="container_profil_section">
+
+        <p class="titlesection">{% trans %}profil{% endtrans %}</p>
+
+        {{ form_start(formMyProfile,{'attr': {'class': 'form_my_profile'}})  }}
+
+        <div class="visible_profile">
+            
+            <label class="checkbox_profile">
+                <input type="checkbox" class="checkbox_profile_input" data-check="{{app.user.announceStatus }}">
+                <span class="checkmark_profile"></span>
+            </label>
+            <span>Make my profile visible for recruitment</span>
+        </div>
+
+        <div class="upload_avatar_profile fontsize1_6">Avatar : {{ form_row(formMyProfile.avatar,{"label" : false})}}</div>
+
+                <div class="mydesc_profil_title fontsize1_6">
+                    {% trans %}mydesc{% endtrans %} <img src="{{asset('images/editicon.png')}}" class="editicon edit_desc_button" onclick="editDescription()">
+                </div>
+
+                {{ form_row(formMyProfile.Description,{'label':false} ) }}
+
+        <div class="level_agent_languages">
+            {{ form_row(formMyProfile.Agent) }}
+            <p class="fontsize1_6">{% trans %}mylevel{% endtrans %} : {{ app.user.level }}</p>
+        </div>
+        
+        {% if app.user.agent == "none_configured" %}
+        <span class="fontsize1_6">{% trans %}favagent{% endtrans %} : {% trans %}chooseagentbelow{% endtrans %}</span> 
+        {% else %}        
+        <span class="fontsize1_6">{% trans %}favagent{% endtrans %} : {{ app.user.agent }}</span>
+        {% endif %}
+
+        <div class="agents_myprofile">
+
+            {%  for Agent in Agents %}
+
+                {% if Agent is same as(app.user.agent) %}
+                <img style="display: none" class="agentimg selectedagent" id="{{ Agent }}"  data-status="selected" onclick="UpdateProfile(this.id,'selected')" src="{{ asset('images/Avatars/Agents/PNG/' ~ Agent ~ '120x120.png') }}" alt="{{ Agent }}">
+                {% else %}
+                    <img class="agentimg nonselectedagent" id="{{ Agent }}" data-status="nonselected" onclick="UpdateProfile(this.id,'nonselected')" src="{{ asset('images/Avatars/Agents/PNG/' ~ Agent ~ '120x120.png') }}" alt="{{ Agent }}">
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+        
+        <div class="container_button_profile">
+            <button onclick="notifDescriptionsaved()" type="submit" class="button_general button_general_profil">{% trans %}savechanges{% endtrans %}</button>
+        </div>
+        {{ form_end(formMyProfile) }}
+
+    
+    </div>
+
+
+    
+{% endblock %}
+
+{% block script %}
+<script>
+    $( ".mydesc_profil_title" ).append( "<div class=\"divide\"></div>" );
+ 
+    if($(".checkbox_profile_input").attr('data-check') == "1") {
+        $('.visible_profile > span').html('You can be hired. Click to leave the list')
+        $(".checkbox_profile_input").prop("checked",true)
+    }
+    else {
+        $('.visible_profile > span').html('Make my profile visible for recruitment')
+        $(".checkbox_profile_input").prop("checked",false)
+    }
+
+    $('.checkbox_profile_input').change(function(){ 
+        if($(this).attr('data-check') == "1") {
+            var checked = "0"
+              $(this).attr('data-check','0')
+              $('.visible_profile > span').html('Make my profile visible for recruitment')
+              
+        }
+        else {
+            var checked = "1"
+            $(this).attr('data-check','1')
+            $('.visible_profile > span').html('You can be hired')
+            
+        }
+
+        $.ajax({
+            url : "/scripts/announcestatus.php",
+            type : "POST",
+            data : 'id={{app.user.id}}&user={{app.user.username}}&announcestatus='+checked,
+            
+            success : function(html){
+
+              }
+        });
+    })
+</script>
+
+<script src="{{asset('js/particlesconfig.js')}}"></script>
+
+{% endblock %}

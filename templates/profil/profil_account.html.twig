@@ -1,0 +1,24 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+<div id="particles-js"></div>
+<div class="container_account_section">
+
+    <p class="titlesection">{% trans %}myaccount{% endtrans %}</p>
+
+    <div class="contentprofilesection">
+        <p><b>{% trans %}mail{% endtrans %} : </b>{{ app.user.email }}</p>
+        <p><b>{% trans %}username{% endtrans %} : </b>{{ app.user.username }}</p>
+        <p><b>{% trans %}datelogin{% endtrans %} : </b>{{ app.user.datesignin |date('d/m/Y') }}</p>
+        <p><b>{% trans %}role{% endtrans %} : </b>{{ app.user.roles.0[5:] | trans}}</p>
+        <div class="premiumaccountpofile">
+
+        </div>
+    </div>
+</div>
+
+    
+{% endblock %}
+{% block script %}
+<script src="/js/particlesconfig.js"></script>
+{% endblock %}

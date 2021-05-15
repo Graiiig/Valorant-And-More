@@ -1,0 +1,235 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+
+<!-- <div id='particles-js'></div> -->
+
+  <div class="teams_menu_block">
+
+    {% set teamleft = 5 - teamsofusernumber %}
+
+    {% for key,team in teamsofuser %}
+      
+      <div class="teams_menu" data-team='teamexist' data-teamname ='{{team.name}}' data-teamid ='{{team.id}}' data-motto ='{{team.title}}' data-creator ='{{team.creator}}' data-date ='{{team.date | date("H:i:s")}}' data-availableslots ='{{team.availableslots}}' data-logo ='{{team.logo}}' data-mediumlevel ='{{team.mediumlevel}}' data-premiumstatus ='{{team.premiumstatus}}' data-member1 ='{{team.member1}}' data-member2 ='{{team.member2}}' data-member3 ='{{team.member3}}' data-member4 ='{{team.member4}}' >
+        <div style="background: url( {{ asset('images/teams_logo/' ~ team.logo ~ '') }});background-size: cover;" class="inner_teams_menu" id="{{key}}" onclick="showmatchingteam()">
+          
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if teamleft > 0 %}
+          
+    {% for key,i in teamsofusernumber..4 %}
+    
+    <div class="teams_menu" data-team='createnew'>
+      <div class="inner_teams_menu" id="{{i}}" onclick="showmatchingteam()">
+        
+      </div>
+    </div>
+    {% endfor %}
+    
+    {% endif %}
+
+  </div>
+
+  <div class="container_teams_section">
+
+  <p class="titlesection">My teams</p>
+
+  <div class="container_team_profil 1" id="container_team_profil">
+
+    <div class="team_block">
+
+      <div class="visible_team_block"></div>
+
+      <div class="team_name">
+        <span class="team_name_span">The informations of your team will be here</span>
+        <img class="delete_team" src="">
+      </div>
+      <div class="motto_team">
+        Click on your team logo above to display informations or click on the + to add new one.
+      </div>
+
+      <div class="description_team_profil"></div>
+
+      <div class="team_logo_display"><img class="team_logo" src=""></div>
+
+      <div class="edit_team"><button>save</button></div>
+
+      <div class="members_block"></div>
+
+    </div>
+
+
+    <div style="display: none;" class="container_teams_create">
+      <span class="create_my_team_txt">Create my Squad</span>
+  
+      {{ form_start(formTeams, {"attr": {'class':'form_squad'}}) }}
+
+      <div class="create_team_name"><span class="name_team_label">Name : </span>{{ form_row(formTeams.name, {'label':false}) }}</div>
+  
+      <div class="create_team_motto"><span class="motto_team_label">Motto : </span>{{ form_row(formTeams.title, {'label':false}) }}</div>
+
+      <div class="create_team_logo"><span>Team logo : </span>{{ form_row(formTeams.logo, {'label':false}) }}</div>
+
+      <div class="create_team_premiumstatus">{{ form_row(formTeams.premium_status) }}</div>
+  
+      
+  
+      <!-- <div class="create_team_availablesslots"><span>Slots Availables : </span>{{ form_row(formTeams.availableslots, {'label':false}) }}</div>
+      {{ form_row(formTeams.member1) }}
+      {{ form_row(formTeams.member2) }}
+      {{ form_row(formTeams.member3) }}
+      {{ form_row(formTeams.member4) }}
+  
+      <div class="add_members_group">
+      {% for i in 1..4 %}
+  
+      <div class="dropdown dropdown{{ i }}">
+          <div onclick="myFunction({{ i }})" data-member = "{{ i }}" class="dropbtn"><img class="img_add_member img_add_member{{ i }}" src="{{ asset('../images/addmember.png') }}"> </br> <span class="name{{ i }}"></span></div>
+          <div id="myDropdown{{ i }}" class="dropdown-content">
+              <input type="text" placeholder="Search for a member" id="myInput{{ i }}" onkeyup="filterFunction({{ i }})">
+  
+              {% for key,member in members %}
+                  <a id ="{{ key }}" onclick="selectMember(this.id,{{ i }})" data-avatar = "{{ member }}" href="#">{{ key }}</a>
+                  
+  
+              {% endfor %}
+          </div>
+      </div>
+  
+      
+  
+  {% endfor %}
+  
+      </div> -->
+  
+      <div class="button_create_team"><button class="button_general button_general_createteam" type="submit">Create a team</button></div>
+  
+      {{ form_end(formTeams) }}
+  
+  </div>
+  
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+  $('.form_squad').hover(function(){
+    
+    if (typeof($("#form_logo")[0].files[0]) == 'undefined'){
+      $('.button_general_createteam').attr("disabled", true);
+    }
+    else if (($("#form_logo")[0].files[0].size > 1024000)){
+      $('.button_general_createteam').attr("disabled", true);
+      if(!$( ".toobigimage" ).length){
+        $('.create_team_logo').after('<span class="toobigimage"> image trop grosse</span>')
+      }
+      
+    }
+    else{
+      $('.button_general_createteam').attr("disabled", false);
+      $('.toobigimage').remove();
+    }
+})
+
+  function showmatchingteam() {
+    var teamid = event.srcElement.id;
+    $("#container_team_profil").removeClass();
+    $("#container_team_profil").addClass(teamid);
+    $("#container_team_profil").addClass('container_team_profil');
+    $('.team_name_span').html('Team : '+teamid );
+
+    }
+
+    $('.teams_menu').click(function(){
+      $('.teams_menu').removeClass('selected_team');
+      $(this).addClass('selected_team');
+      console.log($(this).attr('data-team'))
+      var members = {{ members|json_encode|raw }};
+      if ($(this).attr('data-team') == "createnew"){
+        $('.team_block , .team_block_right, .members_block').css('display', 'none');
+        $('.container_teams_create').css('display', 'block');
+      }
+      else {
+        $('.container_teams_create').css('display', 'none');
+        $('.team_block , .team_block_right, .members_block,.description_team_profil').css('display', 'block');
+        $('.visible_team_block').html('<div class="visible_profile"><label class="checkbox_profile"><input type="checkbox" class="checkbox_profile_input" data-check="{{app.user.announceStatus }}"><span class="checkmark_profile"></span></label><span>Make my team visible for recruitment</span></div>');
+        $('.members_block').css('display', 'flex');
+        $('.team_logo').attr('src','../../../images/teams_logo/'+$(this).attr('data-logo'));
+        $('.description_team_profil').html('Juanito la descriptionne');
+        $('.motto_team').html($(this).attr('data-motto'));
+        $('.team_name_span').html($(this).attr('data-teamname'));
+        $('.member_team0, .member_team1, .member_team2, .member_team3, .member_team4 ').remove();
+        $('.members_block').append('<div class="member_team member_team0"><img class="member_team_avatar member_team_avatar0" src="'+members[$(this).attr('data-creator')]+'"><span class="member_team_name member_team_name0">'+$(this).attr('data-creator')+'</span></>');
+        
+        $('.delete_team').attr('src', '../../../images/menu_logos/delete.png')
+        var id = $(this).attr('data-teamid');
+        $('.delete_team').click(function(){ location.href='../deleteteam/'+id+'' })
+
+        
+
+        for (let i = 1; i <= 4; i++) {
+          var member = $(this).attr('data-member'+i);
+          if (member !== ''){
+            $('.members_block').append('<div class="member_team member_team'+i+'"><img class="member_team_avatar member_team_avatar'+i+'" src="'+members[$(this).attr('data-member'+i)]+'"><span class="member_team_name member_team_name'+i+'">'+$(this).attr('data-member'+i)+'</span></div>');
+          }
+
+        }
+      }
+    })
+
+
+    function selectMember(id,i) {
+    document.getElementById("myDropdown"+i+"").classList.toggle("show");
+ 
+   $('#form_member'+i+'').val(id);
+    var avatar = $('#'+id).attr('data-avatar');
+    $('.img_add_member'+i).attr('src',avatar);
+    $('.name'+i).html(id)
+    }
+
+    function myFunction(i) {
+
+        if ($( "#myDropdown"+i+"" ).hasClass( "show" )){
+            $( "#myDropdown"+i+"" ).removeClass( "show" )
+        }
+        else if ($( ".show" ).hasClass( "show" )) {
+            $( ".show" ).removeClass( "show" );
+            document.getElementById("myDropdown"+i+"").classList.toggle("show");   
+        }
+        else {
+         document.getElementById("myDropdown"+i+"").classList.toggle("show");   
+        }
+        
+        
+        
+        }
+    function filterFunction(i) {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput"+i+"");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown"+i+"");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+        }
+        else {
+        a[i].style.display = "none";
+        }
+        }
+    }
+
+ </script>
+
+ <script src="{{asset('js/particlesconfig.js')}}"></script>
+{% endblock %}

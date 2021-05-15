@@ -1,0 +1,79 @@
+login : Sign in
+signin : Sign in
+signup : Not a member of VAM already ? Sign up now !
+desc: If you are not familiar with Valorant, there are severals characters that you can play during a match, all of wich have specials abilities and roles during the match. Find out wich kind you are, following this personnality test.
+agentbutton : Which Agent Am I ?
+login_h1 : Sign in through your account
+email : Email
+password : Password
+noaccount: Don't have an account yet
+createaccount: Create account here
+oruse : Or use
+login_signout : Log Out
+previous : Previous
+next : Next
+create_h1 : Create your VAM account
+CreateAccount : Create account
+usernameform : Username
+emailform : Email
+passwordform : Password
+repeatpasswordform : Repeat password
+rememberme : Remember me
+plsconfemail :  Please confirm your email.
+receiveemail : You will receive an email in few minutes to verifying your account.
+wentwrong : Somethig went wrong.
+contactadmin : Please contact administrators at
+accountyetmember : Your account is already activated.
+profil : My profile
+teams : My teams
+announces : Announces
+friends : Friends
+account : Account
+home : Home
+findteam : Find a team
+findplayers : Find players
+quizz : Quizz
+getpremium : GET PREMIUM NOW
+premiumtitle : Premium Account
+premiumprice : 1.99$/month
+mail : E-mail Adress
+username : Username
+datelogin : Sign in since
+role : Member
+myaccount : Account
+logout : Logout
+delete : Delete
+mydesc : My description
+mylevel : My level
+favagent : Favorite Agent
+savechanges : Save changes
+oneprofilatonce : You cannot post your profile twice
+agentbefore : You have to choose a favourite agent before you can post an announce
+chooseagentbelow : Choose an agent below
+postanannounce : Post an announce
+MEMBER : MEMBER
+PREMIUM : PREMIUM
+pswdresetemailsent : Password Reset Email Sent
+emailsentpswd : An email has been sent that contains a link that you can click to reset your password. This link will expire in
+hours : hour(s)
+checkspampswdreset : If you don't receive an email please check your spam folder or
+tryagain : try again
+resetyourpassword : Reset your password
+enteremailpswd : Enter your email address and we we will send you a link to reset your password
+sendpswdresemail : Send password reset email
+resetpswd : Reset password
+announcesplayers : Announces
+players : Players
+filters : Filters
+showall : Show all
+sortbydate : Sort By Date
+availableslots : Available(s) slot(s)
+onlypremium : Only Premium
+onlyonline : Only Online
+notinthelist : Not in the list ?
+teamnotinthelist : Your team is not in the list ?
+clickhere : Click here !
+searchbyusername : Search by username
+team : Teams
+searchbyteamname : Search by Team Name
+all : All

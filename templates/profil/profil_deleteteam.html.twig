@@ -1,0 +1,49 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+<div id="particles-js"></div>
+<div>
+    {% if teamstatus == "deleted" %}
+
+      Your team {{teamtodelete.0.name}} as been deleted.
+
+    {% elseif teamstatus == "teamnotdefined" %}    
+      {{teamtodelete.0.name}} is not your team, you cannot delete it.
+    
+    {% else %}
+
+      This team does not exist or isn't yours.
+    {% endif %}
+
+    <p>You will be redirected in <span class="redirectedin">5</span> seconds</p>
+    
+</div>
+    
+{% endblock %}
+
+{% block script %}
+
+
+<script>
+    setTimeout(
+        function(){
+            location.href = document.referrer;
+        }
+        ,5000
+    )
+    
+    var i = 4;          
+    setInterval(
+        function(){
+            $('.redirectedin').html(i);
+            i--;
+        },1000
+        
+    );
+
+
+
+   
+</script>
+<script src="/js/particlesconfig.js"></script>
+{% endblock %}

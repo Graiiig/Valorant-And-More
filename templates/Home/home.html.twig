@@ -1,0 +1,309 @@
+{# templates/home/home.html.twig #}
+<html>
+<head>
+  
+<title>Valorant & More</title>
+<meta name="viewport" content="width=device-width">
+
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+<link href="{{ asset('css/styles_mobiles.css') }}" rel="stylesheet"/>
+<link rel="icon" href="{{ asset('images/favicon.ico') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{ asset('js/particles.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+</head>
+<style>
+
+  
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: tranparent;
+  background-image: url("");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  z-index: -10;
+  top: 0;
+}
+
+</style>
+<body >
+
+<div id="particles-js"></div>
+
+<!-- PC VERSION MENU + BOUTTON + LANG -->
+  <div class="header">
+
+    <div class="menu">
+      {% for nav in navs %}
+
+        {% if nav == "profil" %}
+                <a class="hrefmenu" href="{{ path('profil_'~nav, {'_locale':app.request.locale})}} " class="linkmenu">{{ nav | trans }}</a>
+        {% else %}
+                <a class="hrefmenu" href="{{ path(nav, {'_locale':app.request.locale})}} " class="linkmenu">{{ nav | trans }}</a>
+
+        {% endif %}        
+      {% endfor %}
+    </div>
+
+    {% if app.user %}
+    
+    <!-- <div class="login">
+        <span>{{ app.user.username }}</span> 
+        <a style="display: flex;" href="{{ path('app_logout') }}">&nbsp;<img class="logout_png" src="{{ asset('images/logout-50x50.png') }}" alt="logout"></a>
+    </div> -->
+    <a style="display: flex;margin-right: 1%;" href="{{ path('app_logout') }}"><img class="logout_png" src="{{ asset('images/logout-50x50.png') }}" alt="logout"></a>
+
+    {% else %}
+      <div class="login" onclick="location.href='../login';">
+        {% trans %}login{% endtrans %}
+      </div>
+    {% endif %}
+
+    <div class="languages_block">
+        {% for lang in languages %}
+    
+        <span class="lang" id="{{lang}}" onclick=changeLanguage(this.id) >{{lang}}</span>
+    
+        {% endfor %}
+        <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+    
+    </div>
+    
+  </div> 
+
+  <h1 class="home_title" >Valorant And More</h1>
+
+  <!-- MOBILE VERSION MENU + BOUTTON -->
+  <div class="menumobile">
+      {% for nav in navs %}
+
+      {% if nav == "profil" %}
+              <a class="hrefmenumobile" href="{{"https://valorantandmore.com/" ~ app.request.locale ~ "/" ~ nav ~ "/profil/"}}" class="linkmenu">{{ nav | trans }}</a>
+      {% else %}
+              <a class="hrefmenu" href="{{"https://valorantandmore.com/" ~ app.request.locale ~ "/" ~ nav ~ ""}}" class="linkmenu">{{ nav | trans }}</a>
+
+      {% endif %}        
+      {% endfor %}
+
+  </div>
+
+  {% if app.user %}
+    <div id="loginmobile" class="login">
+      <span>{{ app.user.username }}</span> <a style="display: flex;" href="{{ path('app_logout') }}">&nbsp;<img class="logout_png" src="{{ asset('images/logout-50x50.png') }}" alt="logout"></a>
+    </div>
+
+  {% else %}
+      <div id="loginmobile" class="login" onclick="location.href='../login';">
+        {% trans %}login{% endtrans %}
+      </div>
+  {% endif %}
+  
+
+
+ 
+        
+  <div class="containerdesctrailer">
+
+      <div class="valoranttrailer">
+            <div id="valorant_trailer"></div>
+            <div id="valorant_trailer_reflect"></div>
+      </div> 
+
+      <div class="homedescplusbutton">
+
+        <p class="home_description">{% trans %}desc{% endtrans %}</p>
+        <div class="agent_button" onclick="location.href='../quizz';">
+          <span>{% trans %}agentbutton{% endtrans %}</span>
+        </div>
+      </div>
+
+  </div>
+
+  
+      <img class="jett_home" src="{{ asset('images/jett.png') }}" alt="" > 
+      {# <img class="sprinkles_home" src="{{ asset('images/sprinkles.png') }}" alt="">  #}
+
+
+<!-- MOBILE VERSION LANG -->
+
+  <div id="languages_block_mobile" class="languages_block">
+  {% for lang in languages %}
+
+  <span class="lang {{lang}}" id="{{lang}}" onclick=changeLanguage(this.id) >{{lang}}</span>
+
+  {% endfor %}
+  <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+
+  </div>
+
+
+  <div class="homefooter">   
+      <p class="copyright_home">Software & Galipettes © - 2020</p>
+  </div>
+             
+  {% if app.user.username is defined %}
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 30000,
+      timerProgressBar: false,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+  const eventSource = new EventSource('https://valorantandmore.com:3000/.well-known/mercure?topic=' + encodeURIComponent('http://example.com/user/{{app.user.username}}'));
+    eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    var json = JSON.parse(event.data);
+    //alert(json.msg)
+    console.log(JSON.parse(event.data));
+
+    Toast.fire({
+      icon: 'info',
+      title: json.sender+ " send you :" ,
+      text : json.msg+'...'
+    })
+  }
+  </script>
+  {% endif %}
+
+<script>
+
+
+
+
+
+
+      // Load the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/player_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+      // Replace the 'valorant-trailer' element with an <iframe> and
+      // YouTube player after the API code downloads.
+      var player;
+      function onYouTubePlayerAPIReady() {
+        player = new YT.Player('valorant_trailer', {
+          videoId: 'g8amyzDHOKw',
+          events: {
+            'onStateChange': onStateChange
+          }
+  
+        });
+      }
+  
+      var player2;
+      function onYouTubeIframeAPIReady() {
+        player2 = new YT.Player('valorant_trailer_reflect', {
+          videoId: 'g8amyzDHOKw',
+  
+  
+        });
+      }
+  
+ function onStateChange() {
+  
+        var state_player1 = player.getPlayerState();
+        player2.mute();
+        
+        if (state_player1 === 2 || state_player1 === 0) {
+          player2.pauseVideo()
+        }
+        else{
+          player2.playVideo()
+        }
+  
+        player2.seekTo(player.getCurrentTime())
+      }
+  
+function changeLanguage(lang){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      var actualurl = window.location.href;
+
+      if (lang != language){
+
+        var url = actualurl.replace(language, lang);
+
+        window.location.href = url;
+      }
+      
+    }
+      var url = window.location.href;
+      const regex = /\/..\//g;
+      var lang = url.match(regex);
+      var langue = lang[0].substring(1, lang[0].length-1);
+      $("#"+langue).addClass("selected");
+      $("."+langue).addClass("selected");
+
+
+
+</script>
+<script src="{{asset('js/particlesconfig.js')}}"></script>
+{% if app.user.username is defined %}
+        
+     <script>
+      setInterval(
+            function(){
+            $.ajax({
+                type: "POST",
+                url: "/scripts/putonlinestatususer.php",
+                data: "username={{ app.user.username }}",
+                success: function(msg){
+                //console.log(msg)
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/scripts/putonlinestatusannounces.php",
+                data: "username={{ app.user.username }}",
+                success: function(msg){
+                //console.log(msg)
+                }
+            });
+        
+        }
+            ,60000
+            )
+        setInterval(
+          function(){
+          $.ajax({
+              type: "POST",
+              url: "/scripts/putonlinestatususer.php",
+              data: "username={{ app.user.username }}",
+              success: function(msg){
+              //console.log(msg)
+              }
+          });
+          $.ajax({
+              type: "POST",
+              url: "/scripts/putonlinestatusannounces.php",
+              data: "username={{ app.user.username }}",
+              success: function(msg){
+              //console.log(msg)
+              }
+          });
+      
+      }
+          ,1000
+          )    
+           
+
+</script>
+{% endif %}
+</body>
+
+</html>
+

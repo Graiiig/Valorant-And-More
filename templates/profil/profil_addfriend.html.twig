@@ -1,0 +1,56 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+<div id="particles-js"></div>
+<div class="friendpage" data-page='{{selectedpage}}'>
+    {% if friendadded == "newfriend" %}
+
+        {{friendnameadded}} and you are now friends
+
+    {% else %}    
+        {{friendnameadded}} and you are already friends
+    {% endif %}
+
+    <p>You will be redirected in <span class="redirectedin">5</span> seconds</p>
+    
+</div>
+    
+{% endblock %}
+
+{% block script %}
+
+
+<script>
+    setTimeout(
+        
+        function(){
+            
+            if ($('.friendpage').attr('data-page') == "addfriend"){
+                location.href = document.referrer;
+            }
+            else if ($('.friendpage').attr('data-page') == "msgfriend"){
+                location.href = "../friends/";
+            }
+            else if ($('.friendpage').attr('data-page') == "addfriendtoteam"){
+                location.href = "../teams/";
+            }
+            
+        }
+        ,5000
+    )
+    
+    var i = 4;          
+    setInterval(
+        function(){
+            $('.redirectedin').html(i);
+            i--;
+        },1000
+        
+    );
+
+  
+</script>
+
+<script src="/js/particlesconfig.js"></script>
+
+{% endblock %}

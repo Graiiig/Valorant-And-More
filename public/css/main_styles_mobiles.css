@@ -1,0 +1,14 @@
+@media only screen and (max-width: 800px) {
+    
+    html {
+    background: rgb(99,45,45);
+    background: linear-gradient(to bottom, rgba(99,45,45,1) 0%, rgba(52,23,33,1) 17%, rgba(13,5,23,1) 100%);
+    background-repeat: no-repeat;
+    background-size: auto;
+    overflow: auto;
+    height: 100vh;
+}
+
+
+
+}

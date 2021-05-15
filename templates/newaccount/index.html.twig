@@ -1,0 +1,26 @@
+{% extends 'baselogin.html.twig' %}
+
+{% block content %}
+
+    <h1 class="login_h1">{% trans %}create_h1{% endtrans %} :</h1>
+    <div class="example-wrapper">
+
+        {{ form_start(formAccount,  {'attr': {'class': 'login_form'}}) }}
+
+        <div class="form_error">
+            {{ form_errors(formAccount) }}
+        </div>
+
+        {# {{ form_row(formAccount.Username, {"label" :  "{% trans %}CreateAccount{% endtrans %}"} ) }}  #}
+
+        {{ form_row(formAccount.Username ) }}
+        {{ form_row(formAccount.Email ) }}
+        {{ form_row(formAccount.Password ) }}
+
+        <button type="submit" class="btn btn-success">{% trans %}CreateAccount{% endtrans %} </button>
+
+        {{ form_end(formAccount) }}
+
+    </div>
+
+{% endblock %}

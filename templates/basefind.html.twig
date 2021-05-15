@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>Valorant & More</title>
+
+        <meta name="viewport" content="width=device-width"> 
+        <link href="{{ asset('css/main_styles.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/main_styles_mobiles.css') }}" rel="stylesheet"/>
+        <link rel="icon" href="{{ asset('images/favicon.ico') }}" />
+        <link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet"> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="{{ asset('js/particles.js') }}"></script>
+        
+
+    </head>
+
+    <style>
+        body {
+            height: 100vh;
+            background-image: linear-gradient(to right bottom, #051937, #0e162c, #111222, #100f18, #0c0c0c);
+        }
+        .invert {
+            filter: invert(100%);
+            width: 50%;
+        }
+
+        .menu-item  {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+       
+    </style>
+    <body>
+
+
+        <div class="container">
+
+            <div class="innercontainer" >
+                <div class="header">
+                    <div class="main-menu">
+    
+                        {% for nav in navs %}
+    
+                        {% if nav == "profil" %}
+                                <a href="{{ path('profil_'~nav, {'page': nav, '_locale':app.request.locale})}}" class="linkmenu linkmenu{{nav}}"><img class="invert" src="{{ asset('images/menu_logos/' ~ nav ~'.png') }}"/></a>
+                        {% else %}
+                                <a href="{{ path(nav, {'page': nav, '_locale':app.request.locale})}}" class="linkmenu linkmenu{{nav}}"><img class="invert" src="{{ asset('images/menu_logos/' ~ nav ~'.png') }}"/></a>
+    
+                        {% endif %}        
+                        {% endfor %}
+    
+                    </div>
+                    <div style="height: 30%;"></div>
+                    <div class="languages_block">
+                        {# {% for lang in languages %} #}
+                        <span class="lang" id="en" onclick=changeLanguage(this.id) >en</span>
+                        <span class="lang" id="fr" onclick=changeLanguage(this.id) >fr</span>
+                        {# {% endfor %} #}
+                        <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+
+                </div> 
+
+            </div>
+
+                <div class="containerinnermenu">
+                    <div class="innerprofilecontainer">
+                        <div class="innerprofile">
+                            <span class="innerpseudo">{{ app.user.username }}</span>
+                                </br>
+                            <span class="innermember {{ app.user.roles.0 [5:] }}color">{{ app.user.roles.0 [5:] | trans }}</span>
+                        </div>
+                        <img class="innerimgprofile" src={{ asset(app.user.avatar|slice(1,app.user.avatar|length)) }}>
+                    </div>
+                    <div class="innermenu">
+                        {% block container_seek %}
+                        {% endblock %}
+
+                    </div>
+                </div>
+                
+                    {% block container_seek_players %}
+                    {% endblock %}
+                
+
+            </div>
+
+        </div>
+
+{% if notifications|length > 0 %}
+<script>
+    
+    $('.linkmenuprofil').append('<span class="chat_circle_notification">{{notifications|length}}</span></a>')
+</script>
+{% endif %}
+
+<script>
+    
+        const eventSource = new EventSource('https://valorantandmore.com:3000/.well-known/mercure?topic=' + encodeURIComponent('http://example.com/user/{{app.user.username}}'));
+         eventSource.onmessage = event => {
+        // Will be called every time an update is published by the server
+        var json = JSON.parse(event.data);
+        alert(json.msg)
+        console.log(JSON.parse(event.data));
+}
+    
+        //Function to change language
+        function changeLanguage(lang){
+            var language =  $('#actualLanguage').attr( 'data-language' );
+            var actualurl = window.location.href;
+            if (lang != language){
+                    window.location.href = actualurl.replace(language, lang);
+            }
+        }
+
+            var url = window.location.href;
+            const regex = /\/..\//g;
+            var lang = url.match(regex);
+            var langue = lang[0].substring(1, lang[0].length-1);
+            document.getElementById(""+langue+"").classList.add("selected");
+
+            
+            setInterval(
+                function(){
+                $.ajax({
+                    type: "POST",
+                    url: "/scripts/putonlinestatususer.php",
+                    data: "username={{ app.user.username }}",
+                    success: function(msg){
+                    //console.log(msg)
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/scripts/putonlinestatusannounces.php",
+                    data: "username={{ app.user.username }}",
+                    success: function(msg){
+                    //console.log(msg)
+                    }
+                });
+            
+            }
+                ,60000
+                )
+
+</script>
+{% block script %}
+  
+{% endblock %}
+</body>
+</html>

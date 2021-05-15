@@ -1,0 +1,62 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+<div id="particles-js"></div>
+<div class="container_announces_section">
+
+    {% if app.user.agent == "none_configured" %}
+    
+        <div class="space_postmyprofile"><a href="../profil/" class="postmyprofile">{% trans %} agentbefore {% endtrans %}</a></div>
+
+    {% else %}
+
+        <p class="titlesection">Post my profile to be recruited</p>
+
+        {{ form_start(formAnnounces) }}
+
+        <div class="titleannounce_solo">
+            <span class="label_announce_solo">Announce Title :</span>
+            {{ form_row(formAnnounces.title,{'label':false}, { 'attr': {'placeholder': 'The title I want' } }) }}
+        </div>
+
+        {{ form_row(formAnnounces.username , { 'attr': {'value': app.user.username } }) }}
+        {{ form_row(formAnnounces.avatar , { 'attr': {'value': app.user.avatar } }) }}
+
+        <div class="favoriteagent_announce_solo">
+            <span>Favorite Agent : {{ app.user.agent }} </span>
+                </br> 
+            <img class="agentimg agentimgannounce" src="{{asset('images/Avatars/Agents/PNG/' ~ app.user.agent ~ '120x120.png')}}">
+        </div>
+
+        {{ form_row(formAnnounces.agentplayed , { 'attr': {'value': app.user.agent } }) }}
+
+        <div class="descriptionblock_announce_solo">
+            <span>Description : </span>
+                </br> 
+        <span class="description_announce_solo">{{ app.user.description }}</span>
+        </div>
+
+        {{ form_row(formAnnounces.description , { 'attr': {'value': app.user.description } }) }}
+        
+
+        {{ form_row(formAnnounces.level , { 'attr': {'value': app.user.level } }) }}
+        {{ form_row(formAnnounces.status , { 'attr': {'value': '1' } }) }}
+
+            <p>Languages Spoken :</p>
+
+            <div class="languagesspoken_solo">
+                {{ form_row(formAnnounces.french) }}
+                {{ form_row(formAnnounces.english) }}
+                {{ form_row(formAnnounces.spanish) }}
+            </div>
+
+        <button type="submit" class="button_general announces_post_button">Post my announce</button>
+        {{ form_end(formAnnounces) }}
+{% endif %}
+</div>
+
+{% endblock %}
+{% block script %}
+
+<script src="/js/particlesconfig.js"></script>
+{% endblock %}

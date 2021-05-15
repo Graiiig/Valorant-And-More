@@ -1,0 +1,28 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+
+
+    {{ form_start(formAnnounces) }}
+    {{ form_row(formAnnounces.title, { 'attr': {'value': 'The title I want' } }) }}
+    {{ form_row(formAnnounces.username , { 'attr': {'value': app.user.username } }) }}
+    {{ form_row(formAnnounces.agentplayed) }}
+    <div class="agents_myprofile">
+
+        {%  for Agent in Agents %}
+
+
+                <img class="agentimg nonselectedagent" id="{{ Agent }}" data-status="nonselected" onclick="SelectAgentAnnounces(this.id,'nonselected')" src="{{ asset('images/Avatars/Agents/PNG/' ~ Agent ~ '120x120.png') }}" alt="{{ Agent }}">
+
+
+        {% endfor %}
+
+    </div>
+    {{ form_row(formAnnounces.description) }}
+    {{ form_row(formAnnounces.level , { 'attr': {'value': app.user.level } }) }}
+    {{ form_row(formAnnounces.status , { 'attr': {'value': '1' } }) }}
+    <button type="submit" class="btn btn-success">Save changes</button>
+    {{ form_end(formAnnounces) }}
+
+
+{% endblock %}

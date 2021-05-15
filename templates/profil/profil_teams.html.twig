@@ -1,0 +1,35 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block contentinnercontainer %}
+  <div id="particles-js"></div>
+  <div class="teams_menu_block">
+
+    {% set teamleft = 5 - teamsofusernumber %}
+
+    {% for key, team in teamsofuser %}
+
+      <div class="teams_menu" data-team='teamexist' data-teamname='{{team.name}}' data-teamid='{{team.id}}' data-motto='{{team.title}}' data-creator='{{team.creator}}' data-date='{{team.date | date("H:i:s")}}' data-availableslots='{{team.availableslots}}' data-logo='{{team.logo}}' data-mediumlevel='{{team.mediumlevel}}' data-premiumstatus='{{team.premiumstatus}}' data-member1='{{team.member1}}' data-member2='{{team.member2}}' data-member3='{{team.member3}}' data-member4='{{team.member4}}'>
+        <div style="background: url( {{ asset('images/teams_logo/' ~ team.logo ~ '') }});background-size: cover;" class="inner_teams_menu" id="{{key}}" onclick="showmatchingteam()"></div>
+      </div>
+    {% endfor %}
+
+    {% if teamleft > 0 %}
+
+      {% for key, i in teamsofusernumber..4 %}
+
+        <div class="teams_menu" data-team='createnew'>
+          <div class="inner_teams_menu" id="{{i}}" onclick="showmatchingteam()"></div>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+
+  </div>
+
+  <div class="container_teams_section">
+    <p style="font-size:3vw">Work In Progress Feature</p>
+  </div>
+
+</div>
+<script src="{{asset('js/particlesconfig.js')}}"></script>
+{% endblock %}

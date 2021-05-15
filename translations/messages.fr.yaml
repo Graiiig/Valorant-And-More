@@ -1,0 +1,79 @@
+login : Se connecter
+signin : Se connecter 
+signup : Pas encore membre VAM ? Crée un compte !
+desc : Si tu n'es pas familier avec Valorant, c'est un combo mélangeant Counter Strike et Overwatch. Du skill, des agents et des pouvoirs. Pour bien commencer ton aventure Valorant, nous te recommandons un test de personnalité.
+agentbutton : Quel agent suis-je ?
+login_h1 : Connecte toi à ton compte
+email : Email
+password : Mot de Passe
+noaccount: Pas encore de compte
+createaccount: Crée un compte ici
+oruse : Ou alors
+login_signout : Se déconnecter
+previous : Précédent
+next : Suivant
+create_h1 : Crée ton compte VAM
+CreateAccount : Créer mon compte
+usernameform : Nom d'utilisateur
+emailform : Email
+passwordform : Mot de passe
+repeatpasswordform : Répéter le mot de passe
+rememberme : Se souvenir de moi
+plsconfemail :  Veuillez confirmer votre email.
+receiveemail : Vous allez recevoir un email dans quelques instants afin de valider votre compte.
+wentwrong : Quelque chose s'est mal passé.
+contactadmin : Veuillez contacter les administrateurs en utilisant l'adresse suivante
+accountyetmember : Votre compte est déjà activé.
+profil : Mon profil
+teams : Mes équipes
+announces : Mes annonces
+friends : Mes amis
+account : Mon compte
+home : Accueil
+findteam : Trouver une équipe
+findplayers : Trouver des joueurs
+quizz : Quizz
+getpremium : OBTENIR UN COMPTE PREMIUM
+premiumtitle : Compte Prémium
+premiumprice : 1.99$/mois
+mail : Adresse Mail
+username : Pseudo
+datelogin : Enrégistré depuis le
+role : Membre
+myaccount : Compte
+logout : Déconnexion
+delete : Supprimer
+mydesc : Ma description
+mylevel : Mon niveau
+favagent : Agent favori
+savechanges : Sauvegarder
+oneprofilatonce : Tu ne peux pas poster ton profil plus d'une fois
+agentbefore : Tu dois choisir un agent dans ton profil avant de pouvoir poster une annonce
+chooseagentbelow : Choisis un agent ci-dessous
+postanannounce : Poste ton profil
+MEMBER : MEMBRE
+PREMIUM : VIP
+pswdresetemailsent : Email de réinitialisation envoyé
+emailsentpswd : Un email a été envoyé et contient un lien pour réinitialiser votre mot de passe. Ce lien expirera dans
+hours : heure(s)
+checkspampswdreset : Si vous ne recevez pas l'email, pensez à verifier dans vos courriers indésirables ou
+tryagain : réessayer
+resetyourpassword : Réinitialiser votre mot de passe
+enteremailpswd : Indiquez votre adresse email et nous vous enverrons un email pour le renouveler
+sendpswdresemail : Envoyer l'email de réinitialisation
+resetpswd : Réinitialiser mon mot de passe
+announcesplayers : Annonces
+players : Joueurs
+filters : Filtres
+showall : Tout montrer
+sortbydate : Trier par date
+availableslots : Place(s) disponible(s)
+onlypremium : VIP seulement
+onlyonline : En ligne seulement
+notinthelist : Pas dans la liste ?
+teamnotinthelist : Ton équipe n'est pas dans la liste ?
+clickhere : Cliques ici !
+searchbyusername : Recherche à partir d'un pseudo
+team : Equipes
+searchbyteamname : Recherche à partir d'un nom d'équipe
+all : Tout

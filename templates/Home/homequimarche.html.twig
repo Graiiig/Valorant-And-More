@@ -1,0 +1,151 @@
+{# templates/home/home.html.twig #}
+<html>
+<head>
+  
+<title>Valorant & More</title>
+<meta name="viewport" content="width=device-width">
+
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+<link href="{{ asset('css/styles_mobiles.css') }}" rel="stylesheet"/>
+<link rel="icon" href="{{ asset('images/favicon.ico') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Skranji&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet"> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="header">
+
+    <div class="menu">
+        <a class="hrefmenu" href={{"https://valorantandmore.com/" ~ app.request.locale ~ "/home"}}>{% trans %}home{% endtrans %}</a>
+        <a class="hrefmenu" href="#">{% trans %}findteam{% endtrans %}</a>
+        <a class="hrefmenu" href="#">{% trans %}findplayers{% endtrans %}</a>
+        <a class="hrefmenu" href="{{"https://valorantandmore.com/" ~ app.request.locale ~ "/quizz"}}">{% trans %}quizz{% endtrans %}</a>
+        <a class="hrefmenu" href="{{"https://valorantandmore.com/" ~ app.request.locale ~ "/profil/profil"}}">{% trans %}profil{% endtrans %}</a>
+    </div>
+
+    {% if app.user %}
+    <div class="login">
+        {{ app.user.username }} <a href="{{ path('app_logout') }}">&nbsp - {% trans %}logout{% endtrans %}</a>
+    </div>
+
+  {% else %}
+    <div class="login" onclick="location.href='../login';">
+      {% trans %}login{% endtrans %}
+    </div>
+  {% endif %}
+
+    <div class="languages_block">
+        {% for lang in languages %}
+    
+        <span class="lang" id="{{lang}}" onclick=changeLanguage(this.id) >{{lang}}</span>
+    
+        {% endfor %}
+        <div data-language="{{app.request.locale}}" id="actualLanguage"></div>
+    
+    </div>
+    
+  </div> 
+
+  <h1 class="home_title" >Valorant And More</h1>
+
+ 
+  
+
+  <h2 class="valorant_trailer_title">Valorant Trailer</h2>
+  <div id="valorant_trailer"></div>
+  
+  <div class="home_agent_desc">
+    <p class="home_description">{% trans %}desc{% endtrans %}</p>
+    <div class="agent_button" onclick="location.href='../quizz';">
+      {% trans %}agentbutton{% endtrans %}
+    </div>
+  </div>
+
+  <div id="valorant_trailer_reflect"></div>
+
+  <img class="jett_home" src="{{ asset('images/jett.png') }}" alt="" > 
+  <img class="sprinkles_home" src="{{ asset('images/sprinkles.png') }}" alt="">
+
+  
+
+  <p class="copyright_home">Software & Galipettes © - 2020</p>
+
+<script>
+      // Load the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/player_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+      // Replace the 'valorant-trailer' element with an <iframe> and
+      // YouTube player after the API code downloads.
+      var player;
+      function onYouTubePlayerAPIReady() {
+        player = new YT.Player('valorant_trailer', {
+          height: '36%',
+          width: '33%',
+          videoId: 'g8amyzDHOKw',
+          events: {
+            'onStateChange': onStateChange
+          }
+  
+        });
+      }
+  
+      var player2;
+      function onYouTubeIframeAPIReady() {
+        player2 = new YT.Player('valorant_trailer_reflect', {
+          height: '36%',
+          width: '33%',
+          videoId: 'g8amyzDHOKw',
+  
+  
+        });
+      }
+  
+ function onStateChange() {
+  
+        var state_player1 = player.getPlayerState();
+        player2.mute();
+        
+        if (state_player1 === 2 || state_player1 === 0) {
+          player2.pauseVideo()
+        }
+        else{
+          player2.playVideo()
+        }
+  
+        player2.seekTo(player.getCurrentTime())
+      }
+  
+function changeLanguage(lang){
+      var actualLanguage = document.getElementById('actualLanguage');
+      var language = actualLanguage.dataset.language;
+      var actualurl = window.location.href;
+
+      if (lang != language){
+
+        var url = actualurl.replace(language, lang);
+
+        window.location.href = url;
+      }
+      
+    }
+      var url = window.location.href;
+      const regex = /\/..\//g;
+      var lang = url.match(regex);
+      var langue = lang[0].substring(1, lang[0].length-1);
+      document.getElementById(""+langue+"").classList.add("selected");
+
+      
+
+</script>
+  
+</body>
+
+</html>
+
