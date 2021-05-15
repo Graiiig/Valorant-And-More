@@ -1,4 +1,4 @@
-# Valorant-And-More https://valorantandmore.com/ 
+# Valorant-And-More https://valorantandmore.com/en/home/ 
 ## Valorant And More - Symfony 5 Project
 
 ### FR  
