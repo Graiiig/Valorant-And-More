@@ -49,4 +49,3 @@ security:
         - { path: 'fr/admin/', roles: ROLE_ADMIN }
         - { path: 'en/profile/', roles: ROLE_MEMBER }
         - { path: 'en/admin/', roles: ROLE_ADMIN }
-        -
